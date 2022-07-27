@@ -1,0 +1,37 @@
+.column{
+  padding: 10px;
+  list-style: none;
+  background: #ebecf0;
+  border-radius: 5px;
+
+  &:hover &__delete{
+    visibility: visible;
+  }
+  &__title{
+    position: relative;
+    font-size: 20px;
+    margin: 0 0 10px 0;
+  }
+  &__delete{
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: red;
+    visibility: hidden;
+  }
+  &__list{
+
+  }
+  &__item{
+    padding: 5px;
+    border-radius: 5px;
+    margin: 0 0 10px 0;
+    word-wrap: anywhere;
+    display: block;
+    background: white;
+  }
+
+
+}
+
+
