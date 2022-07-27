@@ -1,0 +1,22 @@
+.container{
+  display: flex;
+  justify-content: center;
+}
+.tasks{
+  flex-wrap: wrap;
+  display: flex;
+  justify-content: left;
+  &__item{
+    margin: 5px;
+    width: 300px;
+  }
+  &__add{
+    margin-top: 5px;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    font-size: 22px;
+  }
+}
+
+
