@@ -1,0 +1,6 @@
+<div class="first" >
+  <h2 class="first__title">Добавить задачу:</h2>
+  <input #task class="first__task" type="text" placeholder="Задача...">
+  <input #deadline class="first__deadline" type="number" placeholder="Срок выполнения...">
+  <button (click)="createFirstTask(task.value, deadline.value)" class="first__add">Добавить</button>
+</div>

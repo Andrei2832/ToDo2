@@ -1,0 +1,29 @@
+.column{
+  cursor: default;
+  padding: 5px;
+  &__title{
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
+  &__text{
+    padding: 5px;
+    border: solid 1px black;
+    border-radius: 5px;
+    margin: 0 0 10px 0;
+    word-wrap: anywhere;
+    display: block;
+    background: white;
+    width: 400px;
+  }
+  &__add{
+    cursor: pointer;
+    margin: 0 0 5px 5px;
+    border-radius: 5px;
+    border: solid 1px black;
+    padding: 5px;
+    font-size: 16px;
+  }
+  &__add:hover{
+    background: whitesmoke;
+  }
+}

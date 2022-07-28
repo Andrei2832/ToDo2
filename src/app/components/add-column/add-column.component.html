@@ -1,0 +1,8 @@
+<form [formGroup]="form" (ngSubmit)="submit()" >
+  <div class="column">
+    <p class="column__title">Название:</p>
+    <input #titleText type="text" class="column__text" placeholder="Введите название..." formControlName="title">
+  </div>
+
+  <button type="submit" class="column__add" (click)="createColumn(titleText.value)">Создать</button>
+</form>
