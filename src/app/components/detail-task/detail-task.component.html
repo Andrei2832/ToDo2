@@ -1,30 +1,33 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
-  <h2 class="detail__title">{{task.title}}</h2>
+  <div class="detail">
+    <h2 class="detail__title">{{task.title}}</h2>
 
-  <p class="detail__deadline">Срок выполнения: {{task.deadline}}</p>
+    <p class="detail__deadline"><b>Срок выполнения:</b> {{task.deadline}}</p>
 
-  <p class="detail__description">Описание:</p>
-  <textarea #description class="detail__description-text" (mouseout)="changeDescription(description.value)">
+    <p class="detail__description"><b>Описание:</b></p>
+    <textarea #description class="detail__description-text" (mouseout)="changeDescription(description.value)">
     {{task.description}}
   </textarea>
 
-  <p class="detail__condition-now">Статус: {{task.condition}}</p>
-  <p class="detail__condition-change">Изменить статус:</p>
-  <div *ngFor="let d of taskService.columnTasks">
-    <button class="detail__select" *ngIf="d.title !== task.condition">{{d.title}}</button>
+    <p class="detail__condition-now"><b>Статус: </b> {{task.condition}}</p>
+    <p class="detail__condition-change"><b>Изменить статус:</b></p>
+    <div *ngFor="let d of taskService.columnTasks" class="detail__container-select">
+      <button #condition class="detail__select" (click)="changeCondition(condition.textContent!)"
+              *ngIf="d.title !== task.condition">{{d.title}}</button>
+    </div>
+
+    <p class="detail__comment-title"><b>Комментарии:</b></p>
+    <input #textMes type="text" class="detail__text-comment">
+    <button class="detail__add-comment" (click)="addMessage(textMes.value); textMes.value = ''">Добавить</button>
+
+    <ul class="detail__comments">
+      <li class="comment" *ngFor="let mes of task.messages">
+        <div>
+          <p class="comment__text">{{mes.text}}</p>
+          <p class="comment__date">{{mes.date}}</p>
+        </div>
+          <button class="comment__delete" (click)="deleteMessage(mes)">Удалить</button>
+      </li>
+    </ul>
   </div>
-
-
-
-  <p class="detail__comment-title">Комментарии:</p>
-  <input #textMes type="text" class="detail__text-comment">
-  <button class="detail__add-comment" (click)="addMessage(textMes.value); textMes.value = ''">Добавить</button>
-
-  <ul class="detail__comments">
-    <li class="comment" *ngFor="let mes of task.messages">
-      <p class="comment__text">{{mes.text}}</p>
-      <p class="comment__date">{{mes.date}}</p>
-      <button class="comment__delete" (click)="deleteMessage(mes)">Удалить</button>
-    </li>
-  </ul>
 </form>

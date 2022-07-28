@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {TaskService} from "../../services/task.service";
-import {ColumnTask} from "../../models/columnTask";
+import {IColumnTask} from "../../models/column-task.interface";
 import {ModalService} from "../../services/modal.service";
-import {DetailTaskComponent} from "../detail-task/detail-task.component";
+import {ITask} from "../../models/task.interface";
 
 
 @Component({
@@ -12,28 +12,35 @@ import {DetailTaskComponent} from "../detail-task/detail-task.component";
 })
 export class TaskListComponent implements OnInit {
 
-  @Input() task!: ColumnTask
+  @Input() task!: IColumnTask
 
-  columnTasks = this.taskService.columnTasks
+  public columnTasks = this.taskService.columnTasks
 
   constructor(
     private taskService: TaskService,
     public modalService: ModalService,
-    private detailTaskComponent:DetailTaskComponent
   ) {}
 
   ngOnInit(): void {
   }
 
-  showModal(nowColumn: ColumnTask){
+  showModal(nowColumn: IColumnTask): void{
     this.taskService.nowColumnTask = nowColumn;
     this.modalService.titleModal = 'Добавить задачу';
     this.modalService.open();
   }
 
-  showDetailTask(task: any){
-    this.taskService.nowTask = task;
+  showDetailTask(task: ITask): void{
+    this.taskService.nowTask = task ;
     this.modalService.titleModal = '';
     this.modalService.open();
+  }
+
+  deleteColumn(): void{
+    this.taskService.deleteColumn(this.task)
+  }
+
+  deleteTask(task: ITask){
+    this.taskService.deleteTask(task)
   }
 }

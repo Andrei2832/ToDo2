@@ -4,9 +4,11 @@
   margin: 0;
   width: 100%;
   height: 100%;
+  cursor: default;
 
 }
 .modalWindow{
+  border-radius: 5px;
   width: 500px;
   position: absolute;
   margin-top: 300px;
@@ -17,6 +19,7 @@
   transform: translate(-50%, -50%);
 }
 .title{
+  cursor: default;
   text-align: center;
-
+  font-size: 26px;
 }

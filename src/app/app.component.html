@@ -1,17 +1,18 @@
 <app-modal *ngIf="modalService.isVisible$ | async">
   <app-add-task *ngIf="modalService.titleModal === 'Добавить задачу'"></app-add-task>
+  <app-add-column *ngIf="modalService.titleModal === 'Добавить колонку'"></app-add-column>
   <app-detail-task *ngIf="modalService.titleModal === ''"></app-detail-task>
 </app-modal>
 
-<app-menu *ngIf="!checkTask.length"></app-menu>
+<app-creating-first-task *ngIf="!checkTasks()"></app-creating-first-task>
 
 <div class="container">
-  <ul *ngIf="checkTask.length" class="tasks">
-    <li *ngFor="let col of checkTask" class="tasks__item">
+  <div *ngIf="columnTasks.length && checkTasks()" class="tasks">
+    <div *ngFor="let col of columnTasks" class="tasks__item">
       <app-task-list [task]="col"></app-task-list>
-    </li>
-    <button class="tasks__add">+</button>
-  </ul>
+    </div>
+    <button class="tasks__add" (click)="createColumn()">+</button>
+  </div>
 
 </div>
 

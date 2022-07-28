@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {TaskService} from "./services/task.service";
-import {ColumnTask} from "./models/columnTask";
+import {IColumnTask} from "./models/column-task.interface";
 import {ModalService} from "./services/modal.service";
 
 @Component({
@@ -10,15 +10,24 @@ import {ModalService} from "./services/modal.service";
 })
 export class AppComponent {
   title: string = 'ToDo2';
-  checkTask: ColumnTask[] = this.taskService.columnTasks
-
-  update(){
-    this.checkTask  = this.taskService.columnTasks
-  }
+  columnTasks: IColumnTask[] = this.taskService.columnTasks
 
   constructor(
-    private taskService: TaskService,
+    public taskService: TaskService,
     public modalService:ModalService
-  ) {
+  ) {}
+
+  public checkTasks(): boolean {
+    return !!this.taskService.columnTasks.length
   }
+  public update(){
+    this.columnTasks  = this.taskService.columnTasks
+  }
+
+  createColumn(){
+    this.modalService.titleModal = 'Добавить колонку';
+    this.modalService.open();
+  }
+
+
 }

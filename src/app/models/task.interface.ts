@@ -1,10 +1,10 @@
-import {Message} from "./message";
+import {IMessage} from "./message.interface";
 
-export interface Task{
+export interface ITask{
   id:number,
   title: string,
   deadline: string,
   description: string,
-  messages: Message[],
+  messages: IMessage[],
   condition: string
 }

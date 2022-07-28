@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
-import {Task} from "../../models/task";
+import {ITask} from "../../models/task.interface";
 import {TaskService} from "../../services/task.service";
-import {Message} from "../../models/message";
+import {IMessage} from "../../models/message.interface";
+import {ModalService} from "../../services/modal.service";
 
 @Component({
   selector: 'app-detail-task',
@@ -11,10 +12,11 @@ import {Message} from "../../models/message";
 })
 export class DetailTaskComponent implements OnInit {
 
-  task: Task = this.taskService.nowTask;
+  public task: ITask = this.taskService.nowTask;
 
   constructor(
-    public taskService:TaskService
+    public taskService: TaskService,
+    private modalService: ModalService
   ) {}
 
   ngOnInit(): void {
@@ -27,17 +29,22 @@ export class DetailTaskComponent implements OnInit {
   submit(){
   }
 
-  changeDescription(text: string){
+  changeDescription(text: string): void{
     this.taskService.changeDescription(text)
   }
 
-  addMessage(textMes: string){
+  addMessage(textMes: string): void{
     if (textMes){
       this.taskService.addMessage(textMes.trim());
     }
   }
-  deleteMessage(message: Message){
-
+  deleteMessage(message: IMessage): void{
     this.taskService.deleteMessage(message);
   }
+
+  changeCondition(condition: string): void{
+    this.taskService.changeCondition(condition)
+    this.modalService.close()
+  }
+
 }

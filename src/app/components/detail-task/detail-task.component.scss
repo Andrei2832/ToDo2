@@ -1,19 +1,22 @@
 .detail{
-  &__container{
-    background: gainsboro;
-    padding: 20px;
-    margin-top: 100px;
-    width: 500px;
-  }
+  cursor: default;
+  padding: 5px;
   &__title{
-    margin-bottom: 10px;
+    text-align: center;
+    margin-bottom: 5px;
     font-size: 20px;
   }
+  &__deadline{
+    margin-bottom: 5px;
+    font-size: 16px;
+  }
   &__description{
-    margin-bottom: 10px;
-    font-size: 18px;
+    margin-bottom: 5px;
+    font-size: 16px;
   }
   &__description-text{
+    text-align: left;
+    margin-bottom: 5px;
     min-height: 90px;
     height: auto;
     width: 400px;
@@ -22,33 +25,81 @@
     border-radius: 5px;
     border: solid 1px black;
   }
+  &__condition-now{
+    margin-bottom: 5px;
+    margin-top: 10px;
+    font-size: 16px;
+  }
+  &__condition-change{
+    margin-bottom: 5px;
+    margin-top: 10px;
+    font-size: 16px;
+  }
+  &__container-select{
+    display: inline-block;
+
+  }
+  &__select{
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 3px;
+    font-size: 14px;
+  }
+  &__select:hover {
+    background: whitesmoke;
+  }
   &__comment-title{
+    margin-bottom: 5px;
     margin-top: 10px;
     font-size: 16px;
   }
   &__text-comment{
+    margin-bottom: 3px;
     width: 300px;
     padding: 5px;
-    font-size: 14px;
+    font-size: 12px;
     border-radius: 5px;
     border: solid 1px black;
   }
   &__add-comment{
-
+    cursor: pointer;
+    margin: 0 0 5px 5px;
+    border-radius: 5px;
+    border: solid 1px black;
+    padding: 3px;
+    font-size: 12px;
+  }
+  &__add-comment:hover {
+    background: whitesmoke;
   }
   &__comments{
 
   }
 }
 .comment{
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
   margin-top: 10px;
   padding: 5px;
   min-width: 100px;
-  &__item{
-
+  &__text{
+    font-size: 16px;
   }
   &__date{
+    color: gray;
+    font-size: 12px;
+  }
+  &__delete{
+    display: block;
+    cursor: pointer;
+    background: transparent;
+    color: indianred;
     font-size: 14px;
+  }
+  &__delete:hover{
+    color: red;
   }
 }
 
