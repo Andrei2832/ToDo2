@@ -1,0 +1,22 @@
+.comment{
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+  margin-top: 10px;
+  padding: 5px;
+  min-width: 100px;
+  &__text{
+    font-size: 16px;
+  }
+  &__date{
+    color: gray;
+    font-size: 12px;
+  }
+  &__delete{
+    display: block;
+    cursor: pointer;
+    background: transparent;
+    color: indianred;
+    font-size: 14px;
+  }
+}
