@@ -1,6 +1,6 @@
 <div class="column">
   <div  class="column__title" >{{task.title}}
-    <div  class="column__delete" *ngIf="columnTasks.length > 3" (click)="deleteColumn()">X</div>
+    <div  class="column__delete" *ngIf="columnTasks.value.length > 3" (click)="deleteColumn()">X</div>
   </div>
 
   <ul class="column__list">

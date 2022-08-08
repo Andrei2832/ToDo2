@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {TaskService} from "./services/task.service";
 import {IColumnTask} from "./models/column-task.interface";
 import {ModalService} from "./services/modal.service";
+import {LocalStorageService} from "./services/local-storage.service";
 
 @Component({
   selector: 'app-root',
@@ -10,21 +11,22 @@ import {ModalService} from "./services/modal.service";
 })
 export class AppComponent {
   title: string = 'ToDo2';
-  columnTasks: IColumnTask[] = this.taskService.columnTasks
+  columnTasks = this.localStorageService.columnTasks
 
   constructor(
-    public taskService: TaskService,
-    public modalService:ModalService
+    private taskService: TaskService,
+    public modalService: ModalService,
+    private localStorageService:LocalStorageService,
   ) {}
 
   public checkTasks(): boolean {
-    return !!this.taskService.columnTasks.length
+    return !!this.localStorageService.getLocalStorage().length
   }
-  public update(){
-    this.columnTasks  = this.taskService.columnTasks
+  public update(): void{
+    this.columnTasks = this.localStorageService.columnTasks
   }
 
-  createColumn(){
+  public createColumn(): void{
     this.modalService.titleModal = 'Добавить колонку';
     this.modalService.open();
   }

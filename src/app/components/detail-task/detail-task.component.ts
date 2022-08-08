@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
-import {ITask} from "../../models/task.interface";
-import {TaskService} from "../../services/task.service";
 import {IMessage} from "../../models/message.interface";
 import {ModalService} from "../../services/modal.service";
+import {LocalStorageService} from "../../services/local-storage.service";
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-detail-task',
@@ -12,39 +12,40 @@ import {ModalService} from "../../services/modal.service";
 })
 export class DetailTaskComponent implements OnInit {
 
-  public task: ITask = this.taskService.nowTask;
+  public task = this.localStorageService.nowTask;
+  public mess = new BehaviorSubject<IMessage[]>(this.localStorageService.nowTask.messages)
 
   constructor(
-    public taskService: TaskService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private localStorageService:LocalStorageService,
   ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
   }
+
+  public columnTasks = this.localStorageService.columnTasks
 
   form = new FormGroup({
     title: new FormControl<string>('')
   })
 
-  submit(){
+  public submit(): void{
   }
 
-  changeDescription(text: string): void{
-    this.taskService.changeDescription(text)
-  }
-
-  addMessage(textMes: string): void{
-    if (textMes){
-      this.taskService.addMessage(textMes.trim());
+  public changeDescription(text: string): void{
+    if (text.trim()){
+      this.localStorageService.changeDescription(text)
     }
   }
-  deleteMessage(message: IMessage): void{
-    this.taskService.deleteMessage(message);
+
+  public addMessage(textMes: string): void{
+    if (textMes.trim()){
+      this.localStorageService.addMessage(textMes);
+    }
   }
 
-  changeCondition(condition: string): void{
-    this.taskService.changeCondition(condition)
+  public changeCondition(condition: string): void{
+    this.localStorageService.changeCondition(condition)
     this.modalService.close()
   }
-
 }

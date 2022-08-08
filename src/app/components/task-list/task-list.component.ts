@@ -3,6 +3,7 @@ import {TaskService} from "../../services/task.service";
 import {IColumnTask} from "../../models/column-task.interface";
 import {ModalService} from "../../services/modal.service";
 import {ITask} from "../../models/task.interface";
+import {LocalStorageService} from "../../services/local-storage.service";
 
 
 @Component({
@@ -14,33 +15,34 @@ export class TaskListComponent implements OnInit {
 
   @Input() task!: IColumnTask
 
-  public columnTasks = this.taskService.columnTasks
+  public columnTasks = this.localStorageService.columnTasks
 
   constructor(
     private taskService: TaskService,
     public modalService: ModalService,
+    private localStorageService:LocalStorageService,
   ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
   }
 
-  showModal(nowColumn: IColumnTask): void{
-    this.taskService.nowColumnTask = nowColumn;
+  public showModal(nowColumn: IColumnTask): void{
+    this.localStorageService.nowColumnTask = nowColumn;
     this.modalService.titleModal = 'Добавить задачу';
     this.modalService.open();
   }
 
-  showDetailTask(task: ITask): void{
-    this.taskService.nowTask = task ;
+  public showDetailTask(task: ITask): void{
+    this.localStorageService.nowTask = task ;
     this.modalService.titleModal = '';
     this.modalService.open();
   }
 
-  deleteColumn(): void{
-    this.taskService.deleteColumn(this.task)
+  public deleteColumn(): void{
+    this.localStorageService.deleteColumn(this.task)
   }
 
-  deleteTask(task: ITask){
-    this.taskService.deleteTask(task)
+  public deleteTask(task: ITask): void{
+    this.localStorageService.deleteTask(task)
   }
 }

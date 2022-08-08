@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, Validator, Validators} from "@angular/forms";
 import {TaskService} from "../../services/task.service";
 import {ModalService} from "../../services/modal.service";
+import {ColumnService} from "../../services/column.service";
+import {LocalStorageService} from "../../services/local-storage.service";
 
 @Component({
   selector: 'app-add-column',
@@ -11,25 +13,33 @@ import {ModalService} from "../../services/modal.service";
 export class AddColumnComponent implements OnInit {
 
   form = new FormGroup({
-    title: new FormControl<string>('')
+    title: new FormControl<string>('',[
+    ])
   })
 
   constructor(
-    public taskService:TaskService,
-    public modalService:ModalService
-  ) { }
+    private taskService:TaskService,
+    private modalService:ModalService,
+    private columnService:ColumnService,
+    private localStorageService:LocalStorageService,
+  ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
   }
 
-  submit(){
+  public submit(): void{
   }
 
-  createColumn(textTask: string): void{
-    if (textTask){
-      this.taskService.createColumn(textTask);
+  public createColumn(Task: any): void{
+    if (Task.value.trim()){
+      this.localStorageService.createColumn(Task.value);
       this.modalService.close();
+    } else {
+      Task.classList.add('column__error')
     }
   }
 
+  public inputChange(Task: Element): void{
+    Task.classList.remove('column__error')
+  }
 }

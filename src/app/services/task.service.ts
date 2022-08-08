@@ -1,141 +1,81 @@
 import {Injectable} from '@angular/core';
 import {ITask} from "../models/task.interface";
 import {IColumnTask} from "../models/column-task.interface";
-import {IMessage} from "../models/message.interface";
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
 
-  public nowColumnTask: IColumnTask;
-  public nowTask: ITask;
-  public columnTasks: IColumnTask[] = this.getColumnTask();
+  constructor(
+  ) { }
 
-  getColumnTask(): IColumnTask[]{
-    let localTasks = JSON.parse(localStorage.getItem('columnTasks') as string);
-    return localTasks == null ? [] : localTasks.columnTasks;
-  }
-
-  createFirstTask(titleFirstTask: string, deadline: string): void{
-    this.columnTasks.push(this.createColumnTasks('Общие задачи',deadline, titleFirstTask ))
-    this.columnTasks.push(this.createColumnTasks('В работе',deadline))
-    this.columnTasks.push(this.createColumnTasks('Готово',deadline ))
-
-    TaskService.setLocalStorageTasks(this.columnTasks);
-  }
-
-  addTask(taskText: string, deadline: string): void{
-    this.columnTasks.filter(item => {
-      if (item.title === this.nowColumnTask.title){
-        item.tasks.push(this.createTask(item.title,taskText,deadline))
+  public addTask(taskText: string, deadline: string, columnTasks: IColumnTask[], nowColumnTask: IColumnTask): IColumnTask[]{
+    columnTasks.filter(item => {
+      if (item.title === nowColumnTask.title){
+        item.tasks.push(this.createTask(item.title,taskText,deadline, columnTasks))
       }
     })
-    TaskService.setLocalStorageTasks(this.columnTasks);
+    return columnTasks
   }
 
-  addMessage(textMes: string): void{
-    this.columnTasks.map(item => {
+  public changeDescription(text: string, columnTasks: IColumnTask[], nowTask: ITask): IColumnTask[]{
+    columnTasks.map(item => {
       for (let task of item.tasks){
-        if (task === this.nowTask){
-          let newMes: IMessage = {
-            text: textMes,
-            date: new Date().toDateString()
-          }
-          task.messages.push(newMes)
-        }
-      }
-    })
-    TaskService.setLocalStorageTasks(this.columnTasks);
-  }
-
-  deleteMessage(message: IMessage): void{
-    this.columnTasks.map(item => {
-      item.tasks.map(task => {
-        for (let mes of task.messages){
-          if (mes === message){
-            let index = task.messages.indexOf(mes)
-            task.messages.splice(index,1)
-          }
-        }
-      })
-    })
-    TaskService.setLocalStorageTasks(this.columnTasks);
-  }
-
-  changeDescription(text:string): void{
-    this.columnTasks.map(item => {
-      for (let task of item.tasks){
-        if (task === this.nowTask){
+        if (task.id === nowTask.id && task.condition === nowTask.condition){
           task.description = text.trim()
         }
       }
     })
-    TaskService.setLocalStorageTasks(this.columnTasks);
+    return columnTasks
   }
 
-  createColumn(title: string): void{
-    this.columnTasks.push(this.createColumnTasks(title));
-    TaskService.setLocalStorageTasks(this.columnTasks);
+  public deleteColumn(column: IColumnTask, columnTasks: IColumnTask[]): IColumnTask[]{
+    let indexColumn = columnTasks.indexOf(column);
+    columnTasks.splice(indexColumn,1);
+    return columnTasks
   }
 
-  deleteColumn(column: IColumnTask): void{
-    let indexColumn = this.columnTasks.indexOf(column);
-    this.columnTasks.splice(indexColumn,1);
-    TaskService.setLocalStorageTasks(this.columnTasks);
-  }
-
-  createColumnTasks(titleColumn: string,deadline: string = '', titleTask: string = '' ): IColumnTask{
-    return  <IColumnTask>{
-      title: titleColumn,
-      tasks: titleTask ? [this.createTask(titleColumn,titleTask, deadline)] : []
-    }
-  }
-
-  deleteTask(taskDel: ITask): void{
-    this.columnTasks.map(item => {
+  public deleteTask(taskDel: ITask,columnTasks: IColumnTask[]): IColumnTask[]{
+    columnTasks.map(item => {
       for (let task of item.tasks){
-        if (task === taskDel){
+        if (task.id === taskDel.id && task.condition === taskDel.condition){
           let index = item.tasks.indexOf(task)
           item.tasks.splice(index,1)
         }
       }
     })
-    TaskService.setLocalStorageTasks(this.columnTasks);
-    if (!this.columnTasks.map(item => item.tasks.length !== 0).includes(true)){
-      localStorage.removeItem('columnTasks')
-      this.columnTasks = this.getColumnTask();
-    }
+    return columnTasks
   }
 
-  changeCondition(condition: string){
-    this.columnTasks.map(item => {
+  public changeCondition(condition: string, columnTasks: IColumnTask[], nowTask: ITask): IColumnTask[]{
+    columnTasks.map(item => {
       for (let task of item.tasks){
-        if (task === this.nowTask){
+        if (task.id === nowTask.id && task.condition === nowTask.condition){
           let index = item.tasks.indexOf(task)
           item.tasks.splice(index,1)
         }
       }
     })
-    this.nowTask.condition = condition
-    this.columnTasks.map(item => {
+    nowTask.condition = condition
+    columnTasks.map(item => {
       if (item.title == condition){
-        item.tasks.push(this.nowTask)
+        item.tasks.push(nowTask)
       }
     })
-    TaskService.setLocalStorageTasks(this.columnTasks);
+    return columnTasks
   }
 
-  createTask(condition: string, textTask: string, deadline: string): ITask{
+  public createTask(condition: string, textTask: string, deadline: string, columnTasks: IColumnTask[]): ITask{
     let id: number;
-    if (!this.columnTasks.length){
+    if (!columnTasks.length){
       id = 0;
     }
-    else if (!this.columnTasks.filter(item => item.title === condition)[0].tasks.length){
+    else if (!columnTasks.filter(item => item.title === condition)[0].tasks.length){
       id = 0
     }
     else {
-      let tasks = this.columnTasks?.filter(item => item.title === condition)[0].tasks
+      let tasks = columnTasks?.filter(item => item.title === condition)[0].tasks
       id = tasks[tasks.length - 1].id + 1
     }
 
@@ -147,9 +87,5 @@ export class TaskService {
       messages: [],
       condition: condition
     }
-  }
-
-  private static setLocalStorageTasks(columnTasks: IColumnTask[]): void {
-    localStorage.setItem('columnTasks', JSON.stringify({columnTasks: columnTasks}));
   }
 }

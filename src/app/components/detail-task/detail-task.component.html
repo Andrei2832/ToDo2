@@ -5,13 +5,13 @@
     <p class="detail__deadline"><b>Срок выполнения:</b> {{task.deadline}}</p>
 
     <p class="detail__description"><b>Описание:</b></p>
-    <textarea #description class="detail__description-text" (mouseout)="changeDescription(description.value)">
+    <textarea #description class="detail__description-text" (change)="changeDescription(description.value)">
     {{task.description}}
-  </textarea>
+    </textarea>
 
     <p class="detail__condition-now"><b>Статус: </b> {{task.condition}}</p>
     <p class="detail__condition-change"><b>Изменить статус:</b></p>
-    <div *ngFor="let d of taskService.columnTasks" class="detail__container-select">
+    <div *ngFor="let d of columnTasks | async" class="detail__container-select">
       <button #condition class="detail__select" (click)="changeCondition(condition.textContent!)"
               *ngIf="d.title !== task.condition">{{d.title}}</button>
     </div>
@@ -21,12 +21,8 @@
     <button class="detail__add-comment" (click)="addMessage(textMes.value); textMes.value = ''">Добавить</button>
 
     <ul class="detail__comments">
-      <li class="comment" *ngFor="let mes of task.messages">
-        <div>
-          <p class="comment__text">{{mes.text}}</p>
-          <p class="comment__date">{{mes.date}}</p>
-        </div>
-          <button class="comment__delete" (click)="deleteMessage(mes)">Удалить</button>
+      <li class="comment" *ngFor="let mes of mess | async">
+        <app-message [mess]="mes"></app-message>
       </li>
     </ul>
   </div>

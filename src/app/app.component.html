@@ -7,8 +7,8 @@
 <app-creating-first-task *ngIf="!checkTasks()"></app-creating-first-task>
 
 <div class="container">
-  <div *ngIf="columnTasks.length && checkTasks()" class="tasks">
-    <div *ngFor="let col of columnTasks" class="tasks__item">
+  <div *ngIf="columnTasks.value.length && checkTasks() " class="tasks">
+    <div *ngFor="let col of columnTasks | async" class="tasks__item">
       <app-task-list [task]="col"></app-task-list>
     </div>
     <button class="tasks__add" (click)="createColumn()">+</button>

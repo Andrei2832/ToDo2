@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
-import {TaskService} from "../../services/task.service";
 import {ModalService} from "../../services/modal.service";
+import {LocalStorageService} from "../../services/local-storage.service";
 
 @Component({
   selector: 'app-add-task',
@@ -15,20 +15,30 @@ export class AddTaskComponent implements OnInit {
   })
 
   constructor(
-    public taskService:TaskService,
-    public modalService:ModalService
+    private modalService:ModalService,
+    private localStorageService:LocalStorageService,
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
   }
 
-  submit(){
+  public submit(): void{
   }
 
-  createTask(textTask: string, deadline: string){
-    if (textTask && deadline){
-      this.taskService.addTask(textTask,deadline);
+  public createTask(textTask: any, deadline: any): void{
+    if (textTask.value.trim() && deadline.value.trim()){
+      this.localStorageService.addTask(textTask.value,deadline.value);
       this.modalService.close();
     }
+    if (!textTask.value.trim()){
+      textTask.classList.add('error')
+    }
+    if(!deadline.value.trim()){
+      deadline.classList.add('error')
+    }
+  }
+
+  public inputChange(Task: Element): void{
+    Task.classList.remove('error')
   }
 }

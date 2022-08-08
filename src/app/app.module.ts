@@ -10,6 +10,7 @@ import { ModalComponent } from './components/modal/modal.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import { CreatingFirstTaskComponent } from './components/creating-first-task/creating-first-task.component';
 import { AddColumnComponent } from './components/add-column/add-column.component';
+import { MessageComponent } from './components/message/message.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { AddColumnComponent } from './components/add-column/add-column.component
     ModalComponent,
     CreatingFirstTaskComponent,
     AddColumnComponent,
+    MessageComponent,
   ],
   imports: [
     BrowserModule,

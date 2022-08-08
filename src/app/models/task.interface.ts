@@ -6,5 +6,5 @@ export interface ITask{
   deadline: string,
   description: string,
   messages: IMessage[],
-  condition: string
+  condition: string,
 }

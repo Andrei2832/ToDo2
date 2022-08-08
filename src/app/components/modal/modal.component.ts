@@ -12,7 +12,7 @@ export class ModalComponent implements OnInit {
     public modalService:ModalService
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
   }
 
 }

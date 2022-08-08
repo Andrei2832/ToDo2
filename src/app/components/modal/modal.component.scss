@@ -1,25 +1,32 @@
 .modal{
   background: rgba(0, 0, 0, 0.5);
   position: fixed;
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  cursor: default;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  &__window{
+    border-radius: 5px;
+    width: 500px;
+    position: absolute;
+    top: 16px;
+    padding: 6px;
+    background: white;
+    left: 50%;
+    transform: translate(-50%, 10%);
+  }
+  &__close{
+    margin: 5px;
+    font-size: 24px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: red;
+  }
+  &__title{
+    cursor: default;
+    text-align: center;
+    font-size: 26px;
+  }
+}
 
-}
-.modalWindow{
-  border-radius: 5px;
-  width: 500px;
-  position: absolute;
-  margin-top: 300px;
-  padding: 6px;
-  background: white;
-  left: 50%;
-  right: 50%;
-  transform: translate(-50%, -50%);
-}
-.title{
-  cursor: default;
-  text-align: center;
-  font-size: 26px;
-}
