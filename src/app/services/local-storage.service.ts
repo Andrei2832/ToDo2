@@ -5,7 +5,8 @@ import {ColumnService} from "./column.service";
 import {TaskService} from "./task.service";
 import {MessageService} from "./message.service";
 import {IMessage} from "../models/message.interface";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, concatMap, delay, from, map, observable, Observable, of} from "rxjs";
+import {ColumnTaskModal} from "../models/column-task.modal";
 
 @Injectable({
   providedIn: 'root'
@@ -14,18 +15,25 @@ export class LocalStorageService {
 
   public nowColumnTask: IColumnTask;
   public nowTask: ITask;
-  public columnTasks = new BehaviorSubject<IColumnTask[]>(this.getLocalStorage())
+  public columnTasks = new BehaviorSubject(this.getLocalStorage())
+
+  public data = {};
 
   constructor(
     private columnService: ColumnService,
     private taskService: TaskService,
     private messageService: MessageService,
-  ) {}
+  ) {
+    this.getData().subscribe(event => this.data = event)
+    console.log(this.data)}
 
+  public getData(): Observable<IColumnTask[]>{
+    return of(JSON.parse(localStorage.getItem('columnTasks') || ''))
+  }
 
   public getLocalStorage(): IColumnTask[]{
-    let localTasks = JSON.parse(localStorage.getItem('columnTasks') as string);
-    return localTasks === null ? [] : localTasks.columnTasks;
+    const tasks: string = localStorage.getItem('columnTasks') || '';
+    return !!tasks ? JSON.parse(tasks).columnTasks : [];
   }
 
   public setLocalStorage(columnTasks: IColumnTask[]): void {
